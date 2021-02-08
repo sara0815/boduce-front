@@ -5,14 +5,16 @@
         <div class="ma-12">
           <v-row>
             <v-col
-              v-for="n in 3"
+              v-for="n in 1"
               :key="n"
-              cols="4">
+              cols="4"
+            >
               <v-card
                 elevation="3"
-                outlined>
+                outlined
+              >
                 <v-card-title>
-                  {{ n }} 위
+                  {{ n }} 위 {{ plates.data[0].name }}
                 </v-card-title>
               </v-card>
             </v-col>
@@ -63,5 +65,25 @@
 </template>
 
 <script>
+import * as axios from 'axios'
+
+export default {
+  data () {
+    return {
+      plates: []
+    }
+  },
+  async mounted () {
+    try {
+      this.plates = await axios.get('http://localhost:5000/api/plates/popular')
+      console.log(this.plates.data[0].name)
+    } catch (e) {
+      console.error(e)
+    }
+    // const test = await axios.get('http://localhost:5000/api/plates')
+    // console.log(test)
+  }
+
+}
 
 </script>
