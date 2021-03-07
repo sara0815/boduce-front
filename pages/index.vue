@@ -5,16 +5,17 @@
         <div class="ma-12">
           <v-row>
             <v-col
-              v-for="n in 1"
-              :key="n"
+              v-for="n in top3plates.data"
+              :key="`top_${n}`"
               cols="4"
             >
               <v-card
                 elevation="3"
                 outlined
               >
-                <v-card-title>
-                  {{ n }} 위 {{ plates.data[0].name }}
+                <v-card-title
+                  style="word-break: keep-all">
+                  {{ n.name }}
                 </v-card-title>
               </v-card>
             </v-col>
@@ -46,14 +47,14 @@
           <v-row
             class="">
             <v-col
-              v-for="i in 1000"
-              :key="i">
+              v-for="i in plateList.data"
+              :key="`plate_${i}`">
               <v-card
                 height="22"
                 width="auto">
                 <v-title
                   style="word-break: keep-all">
-                  삼겹살
+                  {{ i.name }}
                 </v-title>
               </v-card>
             </v-col>
@@ -70,17 +71,17 @@ import * as axios from 'axios'
 export default {
   data () {
     return {
-      plates: []
+      top3plates: [],
+      plateList: []
     }
   },
   async mounted () {
     try {
-      this.plates = await axios.get('http://localhost:5000/api/plates/popular')
-      console.log(this.plates.data[0].name)
+      this.top3plates = await axios.get('http://localhost:5000/api/plates/popular')
     } catch (e) {
       console.error(e)
     }
-    // const test = await axios.get('http://localhost:5000/api/plates')
+    this.plateList = await axios.get('http://localhost:5000/api/plates')
     // console.log(test)
   }
 
